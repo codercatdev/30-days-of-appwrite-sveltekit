@@ -1,6 +1,30 @@
 <script>
     import { state } from "../store";
     import { link } from "svelte-spa-router";
+
+    import { onMount } from "svelte";
+    import { api } from "../appwrite";
+    onMount(async () => {
+        try {
+            const user = await api.getAccount();
+
+            if (user) {
+                state.user = user;
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    });
+
+    const startEmailVerification = async () => {
+        try {
+            const url = `${window.location.origin}/#/verifyEmail`;
+            await api.createVerification(url);
+            alert("Verification Email sent");
+        } catch (error) {
+            alert(error.message);
+        }
+    };
 </script>
 
 <nav>
@@ -11,6 +35,11 @@
     {:else}
         <a href="/login" use:link>Login</a>
         <a href="/register" use:link>Register</a>
+    {/if}
+    {#if !$state?.user?.emailVerification}
+        <button on:click={startEmailVerification}>Not Verified ❌</button>
+    {:else}
+        <p>Verified ✅</p>
     {/if}
 </nav>
 

@@ -5,13 +5,17 @@
     import Login from "./routes/Login.svelte";
     import NotFound from "./routes/NotFound.svelte";
     import Register from "./routes/Register.svelte";
+    import VerifyEmail from "./routes/VerifyEmail.svelte";
+    import ResetPassword from "./routes/ResetPassword.svelte";
+
     const routes = {
         "/": Index,
         "/login": Login,
         "/register": Register,
+        "/resetPassword": ResetPassword,
+        "/verifyEmail": VerifyEmail,
         "*": NotFound,
     };
-
 </script>
 
 <main>
