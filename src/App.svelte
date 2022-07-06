@@ -7,6 +7,9 @@
     import Register from "./routes/Register.svelte";
     import VerifyEmail from "./routes/VerifyEmail.svelte";
     import ResetPassword from "./routes/ResetPassword.svelte";
+    import Team from "./routes/Team.svelte";
+    import Teams from "./routes/Teams.svelte";
+    import AcceptMembership from "./routes/AcceptMembership.svelte";
 
     const routes = {
         "/": Index,
@@ -14,6 +17,9 @@
         "/register": Register,
         "/resetPassword": ResetPassword,
         "/verifyEmail": VerifyEmail,
+        "/profile/:id/teams": Teams,
+        "/team/:id": Team,
+        "/acceptMembership": AcceptMembership,
         "*": NotFound,
     };
 </script>
