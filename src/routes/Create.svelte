@@ -21,7 +21,13 @@
         easyMDE.value(post.text);
         cover = post.cover;
     };
+    let user;
+    let profile;
     onMount(() => {
+        state.subscribe(s => {
+            user = s.user;
+            profile = s.profile;
+        });
         if (params.slug) {
             postFetch();
         }
@@ -42,29 +48,31 @@
             loading = false;
             return;
         }
+        console.log(profile);
         console.log({
             title: title,
             text: content,
             published: published,
-            user: $state.user.$id,
-            profile: $state.profile.$id,
+            user: user?.$id,
+            profile: profile.$id,
         });
         try {
             let data = {
                 title: title,
                 text: content,
+                cover: "",
                 published: published,
-                user_id: $state.user.$id,
+                user_id: user.$id,
                 created_at: params.slug
                     ? post.created_at
                     : new Date().getTime(),
             };
             if (params.slug) {
                 //update
-                await api.updatePost(params.slug, data, $state.user.$id);
-                replace("/profile/" + $state.user.$id);
+                await api.updatePost(params.slug, data, user.$id);
+                replace("/profile/" + user.$id);
             } else {
-                await api.createPost(data, $state.user.$id, $state.profile.$id);
+                await api.createPost(data, user.$id, profile.$id);
                 easyMDE.value("");
                 title = "";
                 content = "";

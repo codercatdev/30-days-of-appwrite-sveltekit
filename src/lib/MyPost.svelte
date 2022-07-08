@@ -2,7 +2,6 @@
     import { createEventDispatcher } from "svelte";
     import { link } from "svelte-spa-router";
     import { api } from "../appwrite";
-    export let post;
     const dispatch = createEventDispatcher();
     const deletePost = async id => {
         if (confirm("are you sure you want to delete?")) {
@@ -10,6 +9,7 @@
             dispatch("deleted");
         }
     };
+    export let post = {};
 </script>
 
 <article class="card">

@@ -39,10 +39,10 @@
     onMount(async () => {
         try {
             const user = await api.getAccount();
-
+            const profile = await api.fetchUser(user.$id);
             if (user) {
                 state.update(s => {
-                    return { ...s, user };
+                    return { ...s, user, profile };
                 });
             }
         } catch (error) {

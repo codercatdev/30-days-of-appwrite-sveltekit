@@ -39,7 +39,7 @@
                         }}
                         {post} />
                 {/each}
-                {#each drafts as draft}
+                {#each drafts as post}
                     <MyPost
                         on:deleted={() => {
                             all = Promise.all([
@@ -49,7 +49,7 @@
                             ]);
                             console.log("deleted");
                         }}
-                        {draft} />
+                        {post} />
                 {/each}
             </section>
         {:else}

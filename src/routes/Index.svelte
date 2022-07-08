@@ -9,6 +9,7 @@
         .fetchPosts(25, 0)
         .then(r => r.documents)
         .then(posts => {
+            console.log(posts);
             return {
                 promoted: posts[0],
                 featured: posts.slice(1, 5),
