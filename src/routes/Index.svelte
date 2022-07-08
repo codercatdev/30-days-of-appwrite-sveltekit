@@ -25,7 +25,9 @@
         <section class="top">
             <div class="promoted">
                 {#if promoted.cover}
-                    <img src={promoted.cover} alt={promoted.title} />
+                    <img
+                        src={api.getThumbnail(promoted.cover).toString()}
+                        alt="" />
                 {/if}
                 <h2>{promoted.title}</h2>
                 <Author user={promoted.user_id} />
@@ -38,7 +40,11 @@
                 {#each featured as feature}
                     <a class="card" href={`#/post/${feature.$id}`}>
                         {#if feature.cover}
-                            <img src={feature.cover} alt={feature.title} />
+                            <img
+                                src={api
+                                    .getThumbnail(feature.cover, 600, 400)
+                                    .toString()}
+                                alt="" />
                         {/if}
                         <h2>{feature.title}</h2>
                     </a>

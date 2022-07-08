@@ -1,4 +1,4 @@
-import { Client, Account, Teams, Databases, Avatars } from "appwrite";
+import { Client, Account, Teams, Databases, Avatars, Storage } from "appwrite";
 import { Query } from "appwrite";
 
 import { state } from "./store"; // saving user data to svelte store
@@ -8,6 +8,7 @@ const account = new Account(client);
 const teams = new Teams(client);
 const database = new Databases(client, "62c5cd18343e3442f407");
 const avatars = new Avatars(client);
+const storage = new Storage(client);
 
 client
     .setEndpoint("http://localhost/v1") //set your own endpoint
@@ -15,7 +16,7 @@ client
 
 const profilesCollection = "62c5cf2fd6ba8c99db13";
 const postsCollection = "62c5cd262ef3f70037e6";
-const bucketId = "[INSERT YOUR ID HERE]";
+const bucketId = "62c88bf00ae487175100";
 export const api = {
     register: async (mail, pass, name) => {
         try {
@@ -171,4 +172,17 @@ export const api = {
     getAvatar: name => {
         return avatars.getInitials(name);
     },
+
+    //Storage stuff
+    uploadFile: (file, userId) =>
+        storage.createFile(
+            bucketId,
+            "unique()",
+            file,
+            ["role:all"],
+            [`user:${userId}`]
+        ),
+    deleteFile: id => storage.deleteFile(bucketId, id),
+    getThumbnail: (id, width = 1000, height = 600) =>
+        storage.getFilePreview(bucketId, id, width, height),
 };

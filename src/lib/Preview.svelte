@@ -1,10 +1,14 @@
 <script>
     export let post;
+    import { api } from "../appwrite";
 </script>
 
 <a href={`#/post/${post.$id}`}>
     {#if post.cover}
-        <img class="cover" src={post.cover} alt={post.title} />
+        <img
+            class="cover"
+            src={api.getThumbnail(post.cover, 400, 250).toString()}
+            alt="" />
     {/if}
     <h2>{post.title}</h2>
 </a>

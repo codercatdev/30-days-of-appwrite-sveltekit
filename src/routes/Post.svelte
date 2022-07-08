@@ -17,7 +17,10 @@
     </h1>
     <Author user={post.user_id} />
     {#if post.cover}
-        <img class="cover" src={post.cover} alt={post.title} />
+        <img
+            class="cover"
+            src={api.getThumbnail(post.cover).toString()}
+            alt="" />
     {/if}
     <section class="content">
         {@html md(post.text)}

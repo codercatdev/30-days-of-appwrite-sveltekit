@@ -38,6 +38,7 @@
             },
         });
     });
+    let files;
     const submit = async () => {
         message = "";
         loading = true;
@@ -48,7 +49,6 @@
             loading = false;
             return;
         }
-        console.log(profile);
         console.log({
             title: title,
             text: content,
@@ -57,10 +57,17 @@
             profile: profile.$id,
         });
         try {
+            if (files && files.length == 1) {
+                if (params.slug) {
+                    await api.deleteFile(cover);
+                }
+                let file = await api.uploadFile(files[0], $state.user.$id);
+                cover = file.$id;
+            }
             let data = {
                 title: title,
                 text: content,
-                cover: "",
+                cover: cover,
                 published: published,
                 user_id: user.$id,
                 created_at: params.slug
@@ -98,6 +105,8 @@
         <div class="alert">{message}</div>
     {/if}
     <form on:submit|preventDefault={submit}>
+        <label for="cover">Cover</label>
+        <input type="file" bind:files />
         <label for="title">Title</label>
         <input
             required
