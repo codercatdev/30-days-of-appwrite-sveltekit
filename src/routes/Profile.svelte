@@ -11,13 +11,15 @@
     const fetchUser = () => api.fetchUser(params.id);
     const fetchPosts = () =>
         api.fetchUserPosts(params.id).then(r => r.documents);
-    let all = Promise.all([fetchUser(), fetchPosts()]);
+    const fetchDrafts = () =>
+        api.fetchUserPosts(params.id, false).then(r => r.documents);
+    let all = Promise.all([fetchUser(), fetchPosts(), fetchDrafts()]);
 </script>
 
 <section>
     {#await all}
         <Loading />
-    {:then [author, posts]}
+    {:then [author, posts, drafts]}
         <section class="author">
             <h3>{author.name}</h3>
         </section>
@@ -28,10 +30,26 @@
                 {#each posts as post}
                     <MyPost
                         on:deleted={() => {
-                            all = Promise.all([fetchUser(), fetchPosts()]);
+                            all = Promise.all([
+                                fetchUser(),
+                                fetchPosts(),
+                                fetchDrafts(),
+                            ]);
                             console.log("deleted");
                         }}
                         {post} />
+                {/each}
+                {#each drafts as draft}
+                    <MyPost
+                        on:deleted={() => {
+                            all = Promise.all([
+                                fetchUser(),
+                                fetchPosts(),
+                                fetchDrafts(),
+                            ]);
+                            console.log("deleted");
+                        }}
+                        {draft} />
                 {/each}
             </section>
         {:else}

@@ -2,19 +2,7 @@
     import { state } from "../store";
     import { link } from "svelte-spa-router";
 
-    import { onMount } from "svelte";
     import { api } from "../appwrite";
-    onMount(async () => {
-        try {
-            const user = await api.getAccount();
-
-            if (user) {
-                state.user = user;
-            }
-        } catch (error) {
-            console.log(error.message);
-        }
-    });
 
     const startEmailVerification = async () => {
         try {
@@ -25,6 +13,7 @@
             alert(error.message);
         }
     };
+    state.subscribe(s => console.log(s));
 </script>
 
 <nav>

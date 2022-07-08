@@ -31,6 +31,24 @@
         "/post/:slug/edit": Create,
         "*": NotFound,
     };
+
+    import { state } from "./store";
+    import { onMount } from "svelte";
+    import { api } from "./appwrite";
+
+    onMount(async () => {
+        try {
+            const user = await api.getAccount();
+
+            if (user) {
+                state.update(s => {
+                    return { ...s, user };
+                });
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    });
 </script>
 
 <main>

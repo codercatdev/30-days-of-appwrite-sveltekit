@@ -118,10 +118,13 @@ export const api = {
             ["DESC"]
         );
     },
-    fetchUserPosts: userId => {
+    fetchUserPosts: (userId, published = true) => {
         return database.listDocuments(
             postsCollection,
-            [Query.equal("published", true), Query.equal("user_id", userId)],
+            [
+                Query.equal("published", published),
+                Query.equal("user_id", userId),
+            ],
             100,
             0,
             "",
