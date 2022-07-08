@@ -13,7 +13,9 @@
             alert(error.message);
         }
     };
-    state.subscribe(s => console.log(s));
+    async function onLogout() {
+        await api.logout();
+    }
 </script>
 
 <nav>
@@ -21,7 +23,7 @@
     {#if $state.user}
         <a href={`/profile/${$state.user.$id}`} use:link>{$state.user.name}</a>
         <a href={`/profile/${$state.user.$id}/teams`} use:link>My Teams</a>
-        <a href="/logout" use:link>Logout</a>
+        <button on:click={onLogout}>Logout</button>
     {:else}
         <a href="/login" use:link>Login</a>
         <a href="/register" use:link>Register</a>
@@ -48,5 +50,8 @@
         font-size: 1.2rem;
         margin-right: auto;
         color: #f02e65;
+    }
+    button {
+        cursor: pointer;
     }
 </style>

@@ -1,6 +1,7 @@
 <!-- Login page -->
 <script>
     import { api } from "../appwrite";
+    import { replace } from "svelte-spa-router";
 
     let mail,
         pass = "";
@@ -8,6 +9,7 @@
     const submit = async () => {
         try {
             await api.login(mail, pass);
+            replace("/");
         } catch (error) {
             console.log(error.message);
         }
@@ -15,6 +17,7 @@
     const loginWithGoogle = async () => {
         try {
             await api.loginWithGoogle();
+            replace("/");
         } catch (error) {
             console.log(error.message);
         }

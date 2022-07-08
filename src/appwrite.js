@@ -41,6 +41,21 @@ export const api = {
             throw error;
         }
     },
+    logout: async () => {
+        try {
+            const user = await account.deleteSessions();
+            state.update(n => {
+                n.user = null;
+                return n;
+            });
+        } catch (error) {
+            state.update(n => {
+                n.user = null;
+                return n;
+            });
+            throw error;
+        }
+    },
     loginWithGoogle: async () => {
         try {
             await account.createOAuth2Session(
