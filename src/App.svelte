@@ -10,6 +10,10 @@
     import Team from "./routes/Team.svelte";
     import Teams from "./routes/Teams.svelte";
     import AcceptMembership from "./routes/AcceptMembership.svelte";
+    import CreateProfile from "./routes/CreateProfile.svelte";
+    import Profile from "./routes/Profile.svelte";
+    import Post from "./routes/Post.svelte";
+    import Create from "./routes/Create.svelte";
 
     const routes = {
         "/": Index,
@@ -17,9 +21,14 @@
         "/register": Register,
         "/resetPassword": ResetPassword,
         "/verifyEmail": VerifyEmail,
+        "/profile/create": CreateProfile, // Add this component
         "/profile/:id/teams": Teams,
+        "/profile/:id": Profile,
         "/team/:id": Team,
         "/acceptMembership": AcceptMembership,
+        "/create": Create,
+        "/post/:slug": Post,
+        "/post/:slug/edit": Create,
         "*": NotFound,
     };
 </script>

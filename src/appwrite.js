@@ -1,14 +1,21 @@
-import { Client, Account, Teams } from "appwrite";
+import { Client, Account, Teams, Databases, Avatars } from "appwrite";
+import { Query } from "appwrite";
 
 import { state } from "./store"; // saving user data to svelte store
 
-const sdk = new Client();
-const account = new Account(sdk);
-const teams = new Teams(sdk);
+const client = new Client();
+const account = new Account(client);
+const teams = new Teams(client);
+const database = new Databases(client, "62c5cd18343e3442f407");
+const avatars = new Avatars(client);
 
-sdk.setEndpoint("http://localhost/v1") //set your own endpoint
+client
+    .setEndpoint("http://localhost/v1") //set your own endpoint
     .setProject("62c58c59e397e73a3b19"); //set your own project id
 
+const profilesCollection = "62c5cf2fd6ba8c99db13";
+const postsCollection = "62c5cd262ef3f70037e6";
+const bucketId = "[INSERT YOUR ID HERE]";
 export const api = {
     register: async (mail, pass, name) => {
         try {
@@ -76,4 +83,74 @@ export const api = {
         teams.updateMembershipStatus(teamId, inviteId, userId, secret),
     deleteMembership: (teamId, inviteId) =>
         teams.deleteMembership(teamId, inviteId),
+
+    //Database stuff
+    fetchUser: async id => {
+        let res = await database.listDocuments(
+            profilesCollection,
+            [Query.equal("user", id)],
+            1
+        );
+        if (res.total > 0 && res.documents.length > 0) return res.documents[0];
+        else throw Error("Not found");
+    },
+    createUser: async (id, name) => {
+        return database.createDocument(
+            profilesCollection,
+            "unique()",
+            {
+                user: id,
+                name: name,
+            },
+            ["role:all"],
+            [`user:${id}`]
+        );
+    },
+    fetchPosts: (limit, offset) => {
+        return database.listDocuments(
+            postsCollection,
+            [Query.equal("published", true)],
+            limit,
+            offset,
+            "",
+            "after",
+            ["published"],
+            ["DESC"]
+        );
+    },
+    fetchUserPosts: userId => {
+        return database.listDocuments(
+            postsCollection,
+            [Query.equal("published", true), Query.equal("user_id", userId)],
+            100,
+            0,
+            "",
+            "after",
+            ["published"],
+            ["DESC"]
+        );
+    },
+    fetchPost: id => database.getDocument(postsCollection, id),
+    deletePost: id => database.deleteDocument(postsCollection, id),
+    createPost: async (data, userId, profileId) => {
+        return database.createDocument(
+            postsCollection,
+            "unique()",
+            data,
+            ["role:all"],
+            [`user:${userId}`]
+        );
+    },
+    updatePost: async (id, data, userId) => {
+        return database.updateDocument(
+            postsCollection,
+            id,
+            data,
+            ["role:all"],
+            [`user:${userId}`]
+        );
+    },
+    getAvatar: name => {
+        return avatars.getInitials(name);
+    },
 };

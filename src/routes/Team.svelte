@@ -72,18 +72,18 @@
                     <li>
                         <div>
                             <div>
-                                <p>Name : {member.name}</p>
-                                {#if member.userId != $state.user.$id}
+                                <p>Name : {member.userName}</p>
+                                {#if member.userId != $state?.user?.$id}
                                     <button
                                         on:click={() =>
                                             deleteMembership(
                                                 params.id,
-                                                member.$id
+                                                member?.$id
                                             )}>❌ Delete Member</button>
                                 {/if}
                             </div>
 
-                            <p>Email: {member.email}</p>
+                            <p>Email: {member?.userEmail}</p>
                             <p>
                                 Invited on : {new Date(member.invited * 1000)}
                             </p>

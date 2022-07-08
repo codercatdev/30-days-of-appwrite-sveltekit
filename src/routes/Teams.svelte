@@ -19,8 +19,8 @@
     {#await all}
         <Loading />
     {:then [author, teams]}
-        <section class="author">
-            <Avatar src={getAvatar(author.name)} />
+        <section class="author" style="width: 6rem; height:6rem; display:flex">
+            <Avatar />
             <h3>{author.name}</h3>
         </section>
         <section>

@@ -1,5 +1,12 @@
 <script>
-    export let alex;
+    export let src;
 </script>
 
-<div />
+<img {src} alt="" />
+
+<style>
+    img {
+        border-radius: 100%;
+        height: 3rem;
+    }
+</style>
