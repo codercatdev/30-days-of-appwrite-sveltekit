@@ -185,4 +185,5 @@ export const api = {
     deleteFile: id => storage.deleteFile(bucketId, id),
     getThumbnail: (id, width = 1000, height = 600) =>
         storage.getFilePreview(bucketId, id, width, height),
+    getQRcode: text => avatars.getQR(text),
 };
