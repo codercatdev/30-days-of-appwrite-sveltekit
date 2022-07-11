@@ -1,0 +1,20 @@
+{
+    "projectId": "62c58c59e397e73a3b19",
+    "projectName": "30daysofappwrite",
+    "functions": [
+        {
+            "$id": "myAwesomeFunction",
+            "name": "My Awesome Function",
+            "runtime": "python-3.9",
+            "path": "functions/My Awesome Function",
+            "entrypoint": "src/index.py",
+            "ignore": [
+                "__pypackages__"
+            ],
+            "execute": [],
+            "events": [],
+            "schedule": "",
+            "timeout": 15
+        }
+    ]
+}
